@@ -1,0 +1,53 @@
+# This function handles successful resource write events fed by Azure Event Grid service.
+# It evaluates whether the resource that was created has the tag "CreatedBy" = "name_value"
+# set or not set. If not configured, the function updates the resource's tag(s)
+# by appending the tag "CreatedBy" = "name_value" to the resource.
+# Written by Andre Fankam
+
+param($eventGridEvent, $TriggerMetadata)
+
+# Make sure to pass hashtables to Out-String so they're logged correctly
+$eventGridEvent | Out-String | Write-Host
+
+#Write-Host "## eventGridEvent.json ##"
+#$eventGridEvent | convertto-json | Write-Host
+
+# Resource creator name
+$eventCallerName = $eventGridEvent.data.claims.name
+Write-Host 
+# New Tag to value
+$newtags = @{"CreatedBy"="$eventCallerName"}
+
+# Resource uri
+$resourceId = $eventGridEvent.data.resourceUri
+
+# Reads resouce tags 
+$tags = (Get-AzTag -ResourceId $resourceId)
+
+if ($tags) {
+    # Tags supported?
+    if ($tags.properties) {
+        # if null no tags?
+        if ($tags.properties.TagsProperty) {
+            if (!($tags.properties.TagsProperty.ContainsKey('CreatedBy')) ) {
+                Update-AzTag -ResourceId $resourceId -Operation Merge -Tag $newTag | Out-Null
+                Write-Host "Added CreatedBy tag with user: $eventCallerName"
+            }
+            else {
+                Write-Host "CreatedBy tag already exists"
+            }
+        }
+        else {
+            Write-Host "Added CreatedBy tag with user: $eventCallerName"
+            New-AzTag -ResourceId $resourceId -Tag $newTag | Out-Null
+        }
+    }
+    else {
+        Write-Host "WARNiNG! Does $resourceId support tags? (`$tags.properties is null)"
+    }
+}
+else {
+    Write-Host "$resourceId does not support tags"
+}
+
+
