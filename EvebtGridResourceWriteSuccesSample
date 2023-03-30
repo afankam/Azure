@@ -1,0 +1,59 @@
+{
+    "dataVersion": "2",
+    "topic": "/subscriptions/xxxxx-xxx-xx-xx",
+    "eventTime": "2023-03-30T16:57:14.5482073Z",
+    "metadataVersion": "1",
+    "id": "xxxx-xxx-xx-xxxxx",
+    "data": {
+        "status": "Succeeded",
+        "correlationId": "xxxx-x-xx-x-x-x-x",
+        "subscriptionId": "xxxxxxx-xxx-x-x-xx-x-x",
+        "authorization": {
+            "scope": "/subscriptions/xxxx-xxx-xxx/resourcegroups/TestEventRG",
+            "evidence": "System.Collections.Hashtable",
+            "action": "Microsoft.Resources/subscriptions/resourcegroups/write"
+        },
+        "resourceUri": "/subscriptions/xxxx-xxx-xxx-xxx/resourcegroups/TestEventRG",
+        "claims": {
+            "http://schemas.microsoft.com/identity/claims/tenantid": "xxxx-xx-x-x-xxxxx--x",
+            "ver": "1.0",
+            "appidacr": "2",
+            "rh": "xxxxx-xxxx-xxxx.",
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "Andre",
+            "xms_tcdt": "xxx-xxxx-xxxx",
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname": "Fankam",
+            "appid": "xxxx-xxx-xxx-xxx",
+            "http://schemas.microsoft.com/identity/claims/scope": "user_impersonation",
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn": "andre@myemail.com",
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": "andre@myemail.com",
+            "onprem_sid": "xxxx-xxx-xxx-xxx",
+            "exp": "1680197034",
+            "iss": "https://sts.windows.net/xxxx-xxxx-xxx-xxxxx/",
+            "ipaddr": "xxxx-xxx-xxx-xxx-x",
+            "uti": "xxxx-xxx-x-x-x-xx-xxx-",
+            "http://schemas.microsoft.com/claims/authnclassreference": "1",
+            "aud": "https://management.core.cloudapi.net/",
+            "groups": "xxx-xx-x-x-x-x-x-x",
+            "name": "Andre ",
+            "http://schemas.microsoft.com/identity/claims/objectidentifier": "xxxx-xxxx-xxx-xxx",
+            "http://schemas.microsoft.com/claims/authnmethodsreferences": "rsa",
+            "wids": "xxx-xxx-xxx-xxx-xx-x",
+            "puid": "xxx-x-x-x-x-x",
+            "aio": "xxx-x-x-x-x-x-x-x-x-x-xZ",
+            "nbf": "1680193134",
+            "iat": "1680193134",
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": "xxx-x-x-x-xxxx-x-x-x"
+        },
+        "operationName": "Microsoft.Resources/subscriptions/resourcegroups/write",
+        "tenantId": "xxx-xxxx-xxx-xxx-x",
+        "httpRequest": {
+            "clientIpAddress": "xxx-xxx-xxx-x",
+            "clientRequestId": "xxx-xxx-xxx-xxx-x-x",
+            "method": "PUT",
+            "url": "https://management.cloudapi.net/subscriptions/xxxx-xxx-xxx-xxxx-/resourcegroups/TestEventRG?api-version=2021-04-01"
+        },
+        "resourceProvider": "Microsoft.Resources"
+    },
+    "subject": "/subscriptions/xxx-xxx-xxx-x-x-xx/resourcegroups/TestEventRG",
+    "eventType": "Microsoft.Resources.ResourceWriteSuccess"
+}
