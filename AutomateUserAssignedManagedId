@@ -1,0 +1,34 @@
+param($eventGridEvent, $TriggerMetadata)
+
+# Make sure to pass hashtables to Out-String so they're logged correctly
+$eventGridEvent | Out-String | Write-Host
+
+# Virtual machine ResourceId
+$vm_resource_id=$eventGridEvent.data.resourceUri
+
+Write-host "vm resource id is: $vm_resource_id"
+
+# Virtual machine properties
+$vm_properties=(Get-AzVm -ResourceId $vm_resource_id )
+
+# Virtual machine resource group
+$vm_resource_id_array = $vm_resource_id.split("/")
+$vm_rg=$vm_resource_id_array[4]
+
+Write-Host "vm resource group is: $vm_rg"
+
+# Virtual machine assigned identity type
+$vm_assigned_id_type=$vm_properties.identity.type
+
+Write-host "vm assigned id type is : $vm_assigned_id_type"
+
+# User assigned manage id
+$uami="/subscriptions/xxx-xxx-xxx-xx-/resourceGroups/rg-prod-az-policy/providers/Microsoft.ManagedIdentity/userAssignedIdentities/UAMI"
+
+# assigned identity type
+$uami_type="UserAssigned"
+
+
+if ( $null -eq $vm_assigned_id_type -or $vm_assigned_id_type -ne $uami_type ) {
+    Update-AzVm -ResourceGroupName $vm_rg -VM $vm_properties -IdentityType $uami_type -IdentityId $uami 
+}
