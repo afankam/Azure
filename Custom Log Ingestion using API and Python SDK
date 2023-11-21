@@ -1,0 +1,59 @@
+import json
+import os
+import logging
+import sys
+
+
+
+from azure.mgmt.resource import ResourceManagementClient, SubscriptionClient
+from msrestazure.azure_cloud import AZURE_US_GOV_CLOUD as CLOUD
+from azure.identity import DefaultAzureCredential, AzureAuthorityHosts,ClientSecretCredential
+from azure.monitor.ingestion import LogsIngestionClient
+from azure.core.exceptions import HttpResponseError
+
+## Refer to /etc/profile.d/azure.sh for all defined environmnent variables
+
+## Global variables
+AZURE_TENANT_ID='XXXXXXXXXXXXXXXXXXXXXXXXXXXX'              
+AZURE_CLIENT_ID='XXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+AZURE_CLIENT_SECRET='XXXXXXXXXXXXXXXXXXXXXXXXX'
+DATA_COLLECTION_ENDPOINT='https://AAAAAAAAAAAAAAAAAAAAAAAAAAA'
+LOGS_DCR_STREAM_NAME='Custom-F5asm_CL'
+DCR_IMMUTABLE_ID='dcr-BBBBBBBBBBBBBBBBBBBBBBB'
+
+endpoint = DATA_COLLECTION_ENDPOINT
+auth_credential = ClientSecretCredential(tenant_id=AZURE_TENANT_ID, client_id=AZURE_CLIENT_ID, client_secret=AZURE_CLIENT_SECRET, authority=AzureAuthorityHosts.AZURE_GOVERNMENT)
+
+
+client = LogsIngestionClient(endpoint, credential=auth_credential, credential_scopes=["https://monitor.azure.us//.default"], logging_enable=True)
+rule_id = DCR_IMMUTABLE_ID
+stream = LOGS_DCR_STREAM_NAME
+file_path = '/var/log/f5-asm.log'
+output_file_path = '/var/log/f5-asm.json'
+
+## Create a logger for the 'azure.monitor.ingestion' SDK
+logger = logging.getLogger('azure.monitor.ingestion')
+logger.setLevel(logging.DEBUG)
+logging.basicConfig(filename='/tmp/troubleshooting.log', level=logging.DEBUG)
+
+## Configure a console output
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
+
+print(client)
+
+
+## Opens and reads log file
+with open(file_path, 'r', encoding='utf-8') as f :
+    data = f.read()
+
+## Parses the JSON objects into a python list
+objects = [json.loads(line) for line in  data.split('\n') if line.strip()]
+
+## Writes  the list of objects to a new output file
+with open(output_file_path, 'r+') as f_output :
+    json.dump(objects, f_output)
+    try:
+        client.upload(rule_id, stream, f_output)
+    except HttpReponseError() as e:
+        print(f"File stream upload failed: {e}")
