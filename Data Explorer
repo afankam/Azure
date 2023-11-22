@@ -1,0 +1,7 @@
+Open your favorite browser
+browse https://dataexplorer.azure.us or https://dataexplorer.azure.com
+Click Add on the upper left corner to connect a LogAnalytics work space
+Connect your Log Analytics workspace to Azure Data Explorer by adding your workspace URI in the ADD Cluster pop up window 
+Use URI: https://adx. Loganalytics.azure.us/subscriptions/XXXXX-XXXXXX-XXXXXX/LogAnalytic_Worspace_Name for Azure government
+Give a distinct name to you connect i.e mayworkspace
+Start running your Kusto Queries in DataExplorer search bar.
