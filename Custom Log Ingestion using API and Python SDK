@@ -1,3 +1,18 @@
++++++++++++++++++++++ OS dependencies ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+install Python3.7 or Higher.
+    - rh-python38.x86_64 
+    - rh-python38-python-pip.noarch 
+    - rh-python38-python-wheel.noarch 
+
+Export rh-python-38 system wide
+export PATH=$PATH:/opt/rh/rh-python38/root/usr/local/bin:/opt/rh/rh-python38/root/usr/bin
+
+Install python required python libraries
+python3.8 -m pip3.8 install --user azure-monitor-ingestion msrestazure.azure_cloud azure.mgmt.resource
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 import json
 import os
 import logging
