@@ -1,4 +1,4 @@
-+++++++++++++++++++++ OS dependencies ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++ OS dependencies ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 install Python3.7 or Higher.
     - rh-python38.x86_64 
     - rh-python38-python-pip.noarch 
@@ -9,6 +9,11 @@ export PATH=$PATH:/opt/rh/rh-python38/root/usr/local/bin:/opt/rh/rh-python38/roo
 
 Install python required python libraries
 python3.8 -m pip3.8 install --user azure-monitor-ingestion msrestazure.azure_cloud azure.mgmt.resource azure-identity
+
++++++++++++++++++++++++++++++++++++++++++++ Troubleshootings +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Error: "ImportError: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'OpenSSL 1.0.2k-fips  26 Jan 2017'
+Fix:  downgrade to urllib3 v2 that support OpenSSL current version install on the system.
+pip3.8 -m pip install --user urllib3==1.26.6
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
